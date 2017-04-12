@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+  dt:
+    image: firecyberice/docker-toolbox:latest
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./docker:/root/.docker
+      - ./data:/root/data
+    env_file:
+      - ./env/vcenter.env
+      - ./env/vm.env
+      - ./env/credentials.env
+      - ./env/dnsupdate.env
