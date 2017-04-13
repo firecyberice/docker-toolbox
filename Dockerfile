@@ -30,7 +30,7 @@ RUN pip install \
 #RUN curl -sLo /usr/local/bin/manifest-tool ${MANIFEST_TOOL_URL} \
 #    && chmod +x /usr/local/bin/manifest-tool
 
-COPY ./data/manifest-tool /usr/local/bin/manifest-tool
+COPY ./manifest-tool /usr/local/bin/manifest-tool
 
 RUN \
     docker-machine version; \
