@@ -26,15 +26,18 @@ RUN pip install \
     docker-compose \
     docker-cloud
 
-ENV MANIFEST_TOOL_URL=https://github.com/estesp/manifest-tool/releases/download/v0.7.0/manifest-tool-linux-amd64
-RUN curl -sLo /usr/local/bin/manifest-tool ${MANIFEST_TOOL_URL} \
-    && chmod +x /usr/local/bin/manifest-tool
+#ENV MANIFEST_TOOL_URL=https://github.com/estesp/manifest-tool/releases/download/v0.3.0/manifest-tool-amd64-linux
+#RUN curl -sLo /usr/local/bin/manifest-tool ${MANIFEST_TOOL_URL} \
+#    && chmod +x /usr/local/bin/manifest-tool
+
+COPY ./data/manifest-tool /usr/local/bin/manifest-tool
 
 RUN \
     docker-machine version; \
     docker-compose version; \
     docker-cloud --version; \
-    docker version || true
+    docker version || true; \
+    manifest-tool --help || true
 
 WORKDIR /root
 ENTRYPOINT []

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+function compile(){
+  docker run --rm -t \
+  -e GOARCH=$DOCKER_TAG \
+  -e CGO_ENABLED=0 \
+  -v $(pwd):/data \
+  golang:1.8 bash -c \
+  "go get -v -d github.com/estesp/manifest-tool \
+  && cd \$GOPATH/src/github.com/estesp/manifest-tool \
+  && go get -v -d ./... \
+  && go build -a --installsuffix cgo --ldflags='-s' -o /data/manifest-tool"
+}
+
+echo "==> Compile"
+compile amd64
+chmod a+x manifest-tool
