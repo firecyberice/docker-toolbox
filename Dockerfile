@@ -12,10 +12,10 @@ RUN apk add --update --no-cache \
     && rm -rf /var/cache/apk/*
 
 
-ENV DOCKER_MACHINE_VERSION=0.10.0 \
+ENV DOCKER_MACHINE_VERSION=v0.10.0 \
     DOCKER_MACHINE_SHA256=74f77385f6744fb83ec922b206f39b4c33ac42e63ed09d4d63652741d8a94df9
 ENV SHELL=/bin/bash \
-    DOCKER_MACHINE_URL=https://github.com/docker/machine/releases/download/v${DOCKER_MACHINE_VERSION}
+    DOCKER_MACHINE_URL=https://github.com/docker/machine/releases/download/${DOCKER_MACHINE_VERSION}
 
 RUN cd /usr/local/bin \
     && curl -sL ${DOCKER_MACHINE_URL}/docker-machine-`uname -s`-`uname -m` > docker-machine \
@@ -26,9 +26,7 @@ RUN pip install \
     docker-compose \
     docker-cloud
 
-ENV MANIFEST_TOOL_VERSION=0.4.0
-
-ENV MANIFEST_TOOL_URL=https://github.com/estesp/manifest-tool/releases/download/v${MANIFEST_TOOL_VERSION}/manifest-tool-linux-amd64
+ENV MANIFEST_TOOL_URL=https://github.com/estesp/manifest-tool/releases/download/v0.3.0/manifest-tool-amd64-linux
 RUN curl -sLo /usr/local/bin/manifest-tool ${MANIFEST_TOOL_URL} \
     && chmod +x /usr/local/bin/manifest-tool
 
