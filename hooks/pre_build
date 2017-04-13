@@ -2,7 +2,7 @@
 
 function compile(){
   docker run --rm -t \
-  -e GOARCH=$DOCKER_TAG \
+  -e GOARCH=amd64 \
   -e CGO_ENABLED=0 \
   -v $(pwd):/data \
   golang:1.8 bash -c \
@@ -13,5 +13,5 @@ function compile(){
 }
 
 echo "==> Compile"
-compile amd64
+compile
 chmod a+x manifest-tool
