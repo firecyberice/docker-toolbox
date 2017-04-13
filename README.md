@@ -3,6 +3,7 @@ Docker image with all docker tools:
 - docker-compose
 - docker-machine
 - docker-cloud
+- manifest-tool
 
 ... gets build at [DockerCloud](https://cloud.docker.com)
 
