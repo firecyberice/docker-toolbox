@@ -26,18 +26,25 @@ RUN pip install \
     docker-compose \
     docker-cloud
 
-#ENV MANIFEST_TOOL_URL=https://github.com/estesp/manifest-tool/releases/download/v0.3.0/manifest-tool-amd64-linux
-#RUN curl -sLo /usr/local/bin/manifest-tool ${MANIFEST_TOOL_URL} \
+#ENV MANIFEST_TOOL_VERSION=v0.4.0/manifest-tool-linux-amd64 \
+#    MANIFEST_TOOL_BASE_URL=https://github.com/estesp/manifest-tool/releases/download
+#RUN curl -sLo /usr/local/bin/manifest-tool ${MANIFEST_TOOL_BASE_URL}/${MANIFEST_TOOL_VERSION} \
 #    && chmod +x /usr/local/bin/manifest-tool
 
 COPY ./manifest-tool /usr/local/bin/manifest-tool
+
+
+ENV DOCKER_GARBAGE_COLLECT_URL=https://raw.githubusercontent.com/spotify/docker-gc/master/docker-gc
+RUN curl -sLo /usr/local/bin/docker-gc ${DOCKER_GARBAGE_COLLECT_URL=} \
+    && chmod +x /usr/local/bin/docker-gc
 
 RUN \
     docker-machine version; \
     docker-compose version; \
     docker-cloud --version; \
     docker version || true; \
-    manifest-tool --help || true
+    manifest-tool --help || true \
+    docker-gc --help || true
 
 WORKDIR /root
 ENTRYPOINT []
