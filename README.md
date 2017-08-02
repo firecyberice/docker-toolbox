@@ -1,9 +1,9 @@
 Docker image with all docker tools:
 
-- docker-compose
-- docker-machine
-- docker-cloud
-- manifest-tool
+- [docker-compose](https://github.com/docker/compose)
+- [docker-machine](https://github.com/docker/machine)
+- [docker-cloud](https://github.com/docker/dockercloud-cli)
+- [manifest-tool](https://github.com/estesp/manifest-tool)
 
 ... gets build at [DockerCloud](https://cloud.docker.com)
 
