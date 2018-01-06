@@ -1,0 +1,21 @@
+#!/bin/bash
+
+source VERSIONS
+
+:<<EOM
+LABEL docker-version=$DOCKER_VERSION
+docker-compose-version=$DOCKER_COMPOSE_VERSION
+docker-cloud-version=$DOCKER_CLOUD_VERSION
+docker-machine-version=$DOCKER_MACHINE_VERSION
+manifest-version=$MANIFEST_TOOL_VERSION
+EOM
+
+docker image build \
+--tag docker-toolbox \
+--build-arg MANIFEST_TOOL_VERSION=$MANIFEST_TOOL_VERSION \
+--build-arg DOCKER_VERSION=$DOCKER_VERSION \
+--build-arg DOCKER_COMPOSE_VERSION=$DOCKER_COMPOSE_VERSION \
+--build-arg DOCKER_CLOUD_VERSION=$DOCKER_CLOUD_VERSION \
+--build-arg DOCKER_MACHINE_VERSION=$DOCKER_MACHINE_VERSION \
+--build-arg DOCKER_MACHINE_SHA256=$DOCKER_MACHINE_SHA256 \
+.
