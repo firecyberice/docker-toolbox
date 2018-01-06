@@ -34,7 +34,6 @@ ENV DOCKER_GARBAGE_COLLECT_URL=https://raw.githubusercontent.com/spotify/docker-
 RUN curl -sLo /usr/local/bin/docker-gc ${DOCKER_GARBAGE_COLLECT_URL} \
     && chmod +x /usr/local/bin/docker-gc
 
-RUN echo "mainfest tool"
 ARG MANIFEST_TOOL_VERSION="v0.7.0/manifest-tool-linux-amd64"
 ENV MANIFEST_TOOL_BASE_URL=https://github.com/estesp/manifest-tool/releases/download
 
