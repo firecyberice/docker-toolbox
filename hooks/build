@@ -11,7 +11,7 @@ manifest-version=$MANIFEST_TOOL_VERSION
 EOM
 
 docker image build \
---tag docker-toolbox \
+--tag ${DOCKER_REPO}:${DOCKER_TAG} \
 --build-arg MANIFEST_TOOL_VERSION=$MANIFEST_TOOL_VERSION \
 --build-arg DOCKER_VERSION=$DOCKER_VERSION \
 --build-arg DOCKER_COMPOSE_VERSION=$DOCKER_COMPOSE_VERSION \
@@ -19,3 +19,4 @@ docker image build \
 --build-arg DOCKER_MACHINE_VERSION=$DOCKER_MACHINE_VERSION \
 --build-arg DOCKER_MACHINE_SHA256=$DOCKER_MACHINE_SHA256 \
 .
+
