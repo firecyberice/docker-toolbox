@@ -1,7 +1,7 @@
 ARG DOCKER_VERSION=latest
 FROM docker:$DOCKER_VERSION
 
-RUN apk add --update --no-cache \
+RUN apk add --no-cache \
     bash \
     bind-tools \
     ca-certificates \
@@ -12,8 +12,8 @@ RUN apk add --update --no-cache \
     py-pip \
     && rm -rf /var/cache/apk/*
 
-ARG DOCKER_MACHINE_VERSION=v0.13.0
-ARG DOCKER_MACHINE_SHA256=8f5310eb9e04e71b44c80c0ccebd8a85be56266b4170b4a6ac6223f7b5640df9
+ARG DOCKER_MACHINE_VERSION=v0.14.0
+ARG DOCKER_MACHINE_SHA256=a4c69bffb78d3cfe103b89dae61c3ea11cc2d1a91c4ff86e630c9ae88244db02
 
 ENV SHELL=/bin/bash \
     DOCKER_MACHINE_URL=https://github.com/docker/machine/releases/download/${DOCKER_MACHINE_VERSION}
@@ -23,16 +23,13 @@ RUN cd /usr/local/bin \
     && echo "$DOCKER_MACHINE_SHA256 *docker-machine" | sha256sum -c - \
     && chmod +x docker-machine
 
-ARG DOCKER_COMPOSE_VERSION=1.18.0
+ARG DOCKER_COMPOSE_VERSION=1.20.1
 ARG DOCKER_CLOUD_VERSION=v1.0.9
 
-RUN pip install \
+RUN pip install --upgrade pip && \
+    pip install \
     docker-compose==$DOCKER_COMPOSE_VERSION \
     docker-cloud==$DOCKER_CLOUD_VERSION
-
-ENV DOCKER_GARBAGE_COLLECT_URL=https://raw.githubusercontent.com/spotify/docker-gc/master/docker-gc
-RUN curl -sLo /usr/local/bin/docker-gc ${DOCKER_GARBAGE_COLLECT_URL} \
-    && chmod +x /usr/local/bin/docker-gc
 
 ARG MANIFEST_TOOL_VERSION="v0.7.0/manifest-tool-linux-amd64"
 ENV MANIFEST_TOOL_BASE_URL=https://github.com/estesp/manifest-tool/releases/download
@@ -40,6 +37,10 @@ ENV MANIFEST_TOOL_BASE_URL=https://github.com/estesp/manifest-tool/releases/down
 RUN echo "${MANIFEST_TOOL_BASE_URL}/${MANIFEST_TOOL_VERSION}" \
     && curl -sLo /usr/local/bin/manifest-tool ${MANIFEST_TOOL_BASE_URL}/${MANIFEST_TOOL_VERSION} \
     && chmod +x /usr/local/bin/manifest-tool
+
+ENV DOCKER_GARBAGE_COLLECT_URL=https://raw.githubusercontent.com/spotify/docker-gc/master/docker-gc
+RUN curl -sLo /usr/local/bin/docker-gc ${DOCKER_GARBAGE_COLLECT_URL} \
+    && chmod +x /usr/local/bin/docker-gc
 
 RUN \
     docker-machine version; \
