@@ -24,12 +24,10 @@ RUN cd /usr/local/bin \
     && chmod +x docker-machine
 
 ARG DOCKER_COMPOSE_VERSION=1.20.1
-ARG DOCKER_CLOUD_VERSION=v1.0.9
 
 RUN pip install --upgrade pip && \
     pip install \
-    docker-compose==$DOCKER_COMPOSE_VERSION \
-    docker-cloud==$DOCKER_CLOUD_VERSION
+    docker-compose==$DOCKER_COMPOSE_VERSION
 
 ARG MANIFEST_TOOL_VERSION="v0.7.0/manifest-tool-linux-amd64"
 ENV MANIFEST_TOOL_BASE_URL=https://github.com/estesp/manifest-tool/releases/download
@@ -45,7 +43,6 @@ RUN curl -sLo /usr/local/bin/docker-gc ${DOCKER_GARBAGE_COLLECT_URL} \
 RUN \
     docker-machine version; \
     docker-compose version; \
-    docker-cloud --version; \
     docker version || true; \
     manifest-tool --version || true \
     docker-gc --help || true
