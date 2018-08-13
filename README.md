@@ -2,8 +2,8 @@ Docker image with all docker tools:
 
 - [docker-compose](https://github.com/docker/compose)
 - [docker-machine](https://github.com/docker/machine)
-- [docker-cloud](https://github.com/docker/dockercloud-cli)
 - [manifest-tool](https://github.com/estesp/manifest-tool)
+- [openfaas-cli](https://github.com/openfaas/faas-cli)
 
 ... gets build at [DockerCloud](https://cloud.docker.com)
 
