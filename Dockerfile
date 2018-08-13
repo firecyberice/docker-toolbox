@@ -8,6 +8,7 @@ RUN apk add --no-cache \
     curl \
     git \
     jq \
+    make \
     openssh-client \
     py-pip \
     && rm -rf /var/cache/apk/*
@@ -40,12 +41,18 @@ ENV DOCKER_GARBAGE_COLLECT_URL=https://raw.githubusercontent.com/spotify/docker-
 RUN curl -sLo /usr/local/bin/docker-gc ${DOCKER_GARBAGE_COLLECT_URL} \
     && chmod +x /usr/local/bin/docker-gc
 
+ARG OPENFAASCLI_VERSION=0.6.4
+ENV OPENFAASCLI_URL=https://github.com/openfaas/faas-cli/releases/download/${OPENFAASCLI_VERSION}/faas-cli
+RUN curl -fsSLo /usr/local/bin/faas-cli ${OPENFAASCLI_URL} \
+    && chmod +x /usr/local/bin/faas-cli
+
 RUN \
     docker-machine version; \
     docker-compose version; \
     docker version || true; \
-    manifest-tool --version || true \
-    docker-gc --help || true
+    faas-cli version || true; \
+    manifest-tool --version || true; \
+    docker-gc --help || true;
 
 WORKDIR /root
 ENTRYPOINT []
