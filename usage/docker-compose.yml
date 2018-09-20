@@ -11,5 +11,4 @@ services:
     env_file:
       - ./env/vcenter.env
       - ./env/vm.env
-      - ./env/credentials.env
       - ./env/dnsupdate.env
