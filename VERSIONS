@@ -1,19 +1,24 @@
-DOCKER_VERSION=18.09.1
+# https://github.com/docker/docker-ce/releases
+# https://hub.docker.com/_/docker
+DOCKER_VERSION=18.09.3
 
+# https://github.com/docker/compose/releases
 DOCKER_COMPOSE_VERSION=1.23.2
 DOCKER_COMPOSE_SHA256=4d618e19b91b9a49f36d041446d96a1a0a067c676330a4f25aca6bbd000de7a9
 
+# https://github.com/docker/machine/releases
 # Docker Machine
 DOCKER_MACHINE_VERSION=v0.16.1
 DOCKER_MACHINE_SHA256=44a008c14549156222b314b1448c22ef255b446419fcf96570f3f288dff318a9
 
+# https://github.com/estesp/manifest-tool/releases
 # curl Manifest tool
 MANIFEST_TOOL_VERSION="v0.9.0/manifest-tool-linux-amd64"
 
-# OpenFAAS CLI
-OPENFAASCLI_VERSION=0.8.3
-OPENFAASCLI_SHA256=d6a633248b89f4d72ee7113e33e1489e016f111472f5669ff37a01730d20445a
+# https://github.com/openfaas/faas-cli/releases
+OPENFAASCLI_VERSION=0.8.5
+OPENFAASCLI_SHA256=88634b01e3b97159b9578afd520c42b7023721ac9c290dfe670432a4d8b0a346
 
-# Docker App
+# https://github.com/docker/app/releases
 DOCKER_APP_VERSION=cnab-dockercon-preview
 DOCKER_APP_SHA256=
