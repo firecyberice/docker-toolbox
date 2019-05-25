@@ -50,6 +50,7 @@ RUN curl -fsSLo dockerapp.tar.gz ${DOCKER_APP_URL} \
 # install docker-compose via pip because of musl vs libc6
 ARG DOCKER_COMPOSE_VERSION=1.20.1
 RUN apk add --no-cache \
+      alpine-sdk \
       gcc \
       libffi-dev \
       openssl-dev \
