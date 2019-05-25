@@ -1,10 +1,11 @@
 ARG DOCKER_VERSION=latest
-FROM alpine:latest AS downloader
 
+FROM alpine:latest AS downloader
 RUN apk add --no-cache \
     curl \
     && rm -rf /var/cache/apk/*
 
+WORKDIR /usr/local/bin/
 ARG DOCKER_MACHINE_VERSION=v0.14.0
 ARG DOCKER_MACHINE_SHA256=a4c69bffb78d3cfe103b89dae61c3ea11cc2d1a91c4ff86e630c9ae88244db02
 ENV DOCKER_MACHINE_URL=https://github.com/docker/machine/releases/download/${DOCKER_MACHINE_VERSION}
@@ -39,6 +40,12 @@ RUN curl -fsSLo dockerapp.tar.gz ${DOCKER_APP_URL} \
     && install docker-app-linux /usr/local/bin/docker-app \
     && install duffle-linux /usr/local/bin/duffle \
     && rm -f dockerapp.tar.gz  docker-app-linux duffle-linux
+
+
+FROM alpine:latest AS composeinstaller
+RUN apk add --no-cache \
+    curl \
+    && rm -rf /var/cache/apk/*
 
 #ARG DOCKER_COMPOSE_VERSION=1.20.1
 #ARG DOCKER_COMPOSE_SHA256
@@ -77,7 +84,7 @@ RUN ls -l /usr/local/bin/
 
 ENV SHELL=/bin/bash
 COPY --from=downloader /usr/local/bin/ /usr/local/bin/
-COPY --from=downloader /usr/bin/docker-compose /usr/bin/docker-compose
+COPY --from=composeinstaller /usr/bin/docker-compose /usr/bin/docker-compose
 RUN \
     docker-machine version; \
     docker-compose version; \
