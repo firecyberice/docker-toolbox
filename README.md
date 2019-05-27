@@ -7,13 +7,13 @@ build and deploy your project.
 
 Specially contains this Toolbox:
 
-** Build**:
+** Build **:
  - jq
  - zip
  - python3/pip3
  - gettext
 
-** Deployment**:
+** Deployment **:
 - [docker-compose](https://github.com/docker/compose)
 - [docker-machine](https://github.com/docker/machine)
 - [manifest-tool](https://github.com/estesp/manifest-tool)
