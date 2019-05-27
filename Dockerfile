@@ -64,11 +64,11 @@ RUN apk add --no-cache \
       py3-pip \
       python3-dev \
     && pip3 install --upgrade pip \
-    && pip3 install docker-compose==$DOCKER_COMPOSE_VERSION \
+    && pip3 install docker-compose==$DOCKER_COMPOSE_VERSION
 
 FROM docker:$DOCKER_VERSION
 RUN apk add --no-cache \
-    bash \Deploy
+    bash \
     bind-tools \
     ca-certificates \
     curl \
@@ -80,7 +80,6 @@ RUN apk add --no-cache \
     python3 \
     rsync \
     lftp \
-    rsync \
     && rm -rf /var/cache/apk/* \
     && pip3 install awscli
 
