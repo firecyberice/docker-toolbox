@@ -41,8 +41,7 @@ RUN curl -fsSLo dockerapp.tar.gz ${DOCKER_APP_URL} \
     && install duffle-linux /usr/local/bin/duffle \
     && rm -f dockerapp.tar.gz  docker-app-linux duffle-linux
 
-
-FROM alpine:latest AS composeinstaller
+FROM docker:$DOCKER_VERSION
 RUN apk add --no-cache \
     curl \
     && rm -rf /var/cache/apk/*
@@ -66,7 +65,6 @@ RUN apk add --no-cache \
     && pip3 install --upgrade pip \
     && pip3 install docker-compose==$DOCKER_COMPOSE_VERSION
 
-FROM docker:$DOCKER_VERSION
 RUN apk add --no-cache \
     bash \
     bind-tools \
@@ -84,7 +82,7 @@ RUN ls -l /usr/local/bin/
 
 ENV SHELL=/bin/bash
 COPY --from=downloader /usr/local/bin/ /usr/local/bin/
-COPY --from=composeinstaller /usr/bin/docker-compose /usr/bin/docker-compose
+
 RUN \
     docker-machine version; \
     docker-compose version; \
