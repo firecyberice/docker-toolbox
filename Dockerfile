@@ -19,10 +19,6 @@ RUN echo "${MANIFEST_TOOL_BASE_URL}/${MANIFEST_TOOL_VERSION}" \
     && curl -sLo manifest-tool ${MANIFEST_TOOL_BASE_URL}/${MANIFEST_TOOL_VERSION} \
     && chmod +x manifest-tool
 
-ENV DOCKER_GARBAGE_COLLECT_URL=https://raw.githubusercontent.com/spotify/docker-gc/master/docker-gc
-RUN curl -sLo docker-gc ${DOCKER_GARBAGE_COLLECT_URL} \
-    && chmod +x docker-gc
-
 ARG OPENFAASCLI_VERSION=0.6.4
 ARG OPENFAASCLI_SHA256
 
@@ -30,16 +26,6 @@ ENV OPENFAASCLI_URL=https://github.com/openfaas/faas-cli/releases/download/${OPE
 RUN curl -fsSLo faas-cli ${OPENFAASCLI_URL} \
     && echo "${OPENFAASCLI_SHA256} *faas-cli" | sha256sum -c - \
     && chmod +x faas-cli
-
-WORKDIR /tmp
-ARG DOCKER_APP_VERSION
-ARG DOCKER_APP_SHA256
-ENV DOCKER_APP_URL=https://github.com/docker/app/releases/download/${DOCKER_APP_VERSION}/docker-app-linux.tar.gz
-RUN curl -fsSLo dockerapp.tar.gz ${DOCKER_APP_URL} \
-    && tar -xzf dockerapp.tar.gz \
-    && install docker-app-linux /usr/local/bin/docker-app \
-    && install duffle-linux /usr/local/bin/duffle \
-    && rm -f dockerapp.tar.gz  docker-app-linux duffle-linux
 
 FROM docker:$DOCKER_VERSION
 RUN apk add --no-cache \
@@ -81,21 +67,18 @@ RUN apk add --no-cache \
     && rm -rf /var/cache/apk/*
 
 RUN pip3 install awscli
-
 RUN ls -l /usr/local/bin/
 
 ENV SHELL=/bin/bash
 COPY --from=downloader /usr/local/bin/ /usr/local/bin/
 
-RUN \
-    docker-machine version; \
-    docker-compose version; \
-    docker version || true; \
-    docker-app version || true; \
-    duffle version || true; \
-    faas-cli version || true; \
-    manifest-tool --version || true; \
-    docker-gc --help || true;
+RUN { \
+      docker-machine version; \
+      docker-compose version; \
+      docker version || true; \
+      faas-cli version || true; \
+      manifest-tool --version || true; \
+    }
 
 WORKDIR /root
 ENTRYPOINT []

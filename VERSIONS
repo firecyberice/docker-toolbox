@@ -19,6 +19,3 @@ MANIFEST_TOOL_VERSION="v0.9.0/manifest-tool-linux-amd64"
 OPENFAASCLI_VERSION=0.8.13
 OPENFAASCLI_SHA256=2337d24da755ffab0e019e4cf809a674f229357d5f0b53e40b413e8fb8c88692
 
-# https://github.com/docker/app/releases
-DOCKER_APP_VERSION=cnab-dockercon-preview
-DOCKER_APP_SHA256=
