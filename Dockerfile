@@ -29,8 +29,17 @@ RUN curl -fsSLo faas-cli ${OPENFAASCLI_URL} \
 
 FROM docker:$DOCKER_VERSION
 RUN apk add --no-cache \
+    bash \
+    bind-tools \
+    ca-certificates \
     curl \
-    && rm -rf /var/cache/apk/*
+    gettext \
+    git \
+    jq \
+    lftp \
+    make \
+    openssh-client \
+    rsync
 
 #ARG DOCKER_COMPOSE_VERSION=1.20.1
 #ARG DOCKER_COMPOSE_SHA256
@@ -42,29 +51,15 @@ RUN apk add --no-cache \
 # install docker-compose via pip because of musl vs libc6
 ARG DOCKER_COMPOSE_VERSION=1.20.1
 RUN apk add --no-cache \
-      alpine-sdk \
-      gcc \
-      libffi-dev \
-      openssl-dev \
-      py3-pip \
-      python3-dev \
+    alpine-sdk \
+    gcc \
+    libffi-dev \
+    openssl-dev \
+    py3-pip \
+    python3 \
+    python3-dev \
     && pip3 install --upgrade pip \
     && pip3 install docker-compose==$DOCKER_COMPOSE_VERSION
-
-RUN apk add --no-cache \
-    bash \
-    bind-tools \
-    ca-certificates \
-    curl \
-    gettext \
-    git \
-    jq \
-    lftp \
-    make \
-    openssh-client \
-    python3 \
-    rsync \
-    && rm -rf /var/cache/apk/*
 
 RUN pip3 install awscli
 RUN ls -l /usr/local/bin/
