@@ -73,10 +73,14 @@ RUN apk add --no-cache \
     gettext \
     git \
     jq \
+    lftp \
     make \
     openssh-client \
     python3 \
+    rsync \
     && rm -rf /var/cache/apk/*
+
+RUN pip3 install awscli
 
 RUN ls -l /usr/local/bin/
 
