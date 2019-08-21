@@ -1,11 +1,12 @@
 ARG DOCKER_VERSION=latest
 
-FROM alpine:latest AS downloader
+FROM alpine:latest AS dl
 RUN apk add --no-cache \
-    curl \
-    && rm -rf /var/cache/apk/*
+    curl
 
 WORKDIR /usr/local/bin/
+
+FROM dl AS p1
 ARG DOCKER_MACHINE_VERSION=v0.14.0
 ARG DOCKER_MACHINE_SHA256=a4c69bffb78d3cfe103b89dae61c3ea11cc2d1a91c4ff86e630c9ae88244db02
 ENV DOCKER_MACHINE_URL=https://github.com/docker/machine/releases/download/${DOCKER_MACHINE_VERSION}
@@ -13,19 +14,25 @@ RUN curl -sLo docker-machine ${DOCKER_MACHINE_URL}/docker-machine-`uname -s`-`un
     && echo "$DOCKER_MACHINE_SHA256 *docker-machine" | sha256sum -c - \
     && chmod +x docker-machine
 
+FROM dl AS p2
 ARG MANIFEST_TOOL_VERSION="v0.7.0/manifest-tool-linux-amd64"
 ENV MANIFEST_TOOL_BASE_URL=https://github.com/estesp/manifest-tool/releases/download
 RUN echo "${MANIFEST_TOOL_BASE_URL}/${MANIFEST_TOOL_VERSION}" \
     && curl -sLo manifest-tool ${MANIFEST_TOOL_BASE_URL}/${MANIFEST_TOOL_VERSION} \
     && chmod +x manifest-tool
 
+FROM dl AS p3
 ARG OPENFAASCLI_VERSION=0.6.4
 ARG OPENFAASCLI_SHA256
-
 ENV OPENFAASCLI_URL=https://github.com/openfaas/faas-cli/releases/download/${OPENFAASCLI_VERSION}/faas-cli
 RUN curl -fsSLo faas-cli ${OPENFAASCLI_URL} \
     && echo "${OPENFAASCLI_SHA256} *faas-cli" | sha256sum -c - \
     && chmod +x faas-cli
+
+FROM scratch AS collect
+COPY --from=p1 /usr/local/bin/ /usr/local/bin/
+COPY --from=p2 /usr/local/bin/ /usr/local/bin/
+COPY --from=p3 /usr/local/bin/ /usr/local/bin/
 
 FROM docker:$DOCKER_VERSION
 RUN apk add --no-cache \
@@ -63,10 +70,9 @@ RUN apk add --no-cache \
 
 RUN pip3 install awscli
 RUN ls -l /usr/local/bin/
-
 ENV SHELL=/bin/bash
-COPY --from=downloader /usr/local/bin/ /usr/local/bin/
 
+COPY --from=collect /usr/local/bin/ /usr/local/bin/
 RUN { \
       docker-machine version; \
       docker-compose version; \
