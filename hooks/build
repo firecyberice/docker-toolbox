@@ -1,15 +1,7 @@
 #!/bin/bash
 
 source VERSIONS
+ARGS=$(grep -v "#\|^\$" VERSIONS |xargs -n 1 -r -I {} printf "--build-arg %s " "{}")
 
-docker image build \
---tag ${DOCKER_REPO}:${DOCKER_TAG} \
---build-arg DOCKER_VERSION=$DOCKER_VERSION \
---build-arg DOCKER_COMPOSE_VERSION=$DOCKER_COMPOSE_VERSION \
---build-arg DOCKER_COMPOSE_SHA256=$DOCKER_COMPOSE_SHA256 \
---build-arg DOCKER_MACHINE_VERSION=$DOCKER_MACHINE_VERSION \
---build-arg DOCKER_MACHINE_SHA256=$DOCKER_MACHINE_SHA256 \
---build-arg MANIFEST_TOOL_VERSION=$MANIFEST_TOOL_VERSION \
---build-arg OPENFAASCLI_VERSION=$OPENFAASCLI_VERSION \
---build-arg OPENFAASCLI_SHA256=$OPENFAASCLI_SHA256 \
-.
+echo ${ARGS}
+docker image build --tag ${DOCKER_REPO}:${DOCKER_TAG} ${ARGS} .
