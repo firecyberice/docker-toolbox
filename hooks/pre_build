@@ -1,0 +1,10 @@
+#!/bin/bash
+
+DOCKER_COMPOSE_VERSION=1.29.1
+git clone --branch ${DOCKER_COMPOSE_VERSION} --depth 1 git@github.com:docker/compose.git
+
+cd compose
+sed -i -e "s|debian|alpine|g" script/build/linux
+export DOCKER_BUILDKIT=1
+make
+cp dist/docker-compose-Linux-x86_64 ../docker-compose

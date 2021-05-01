@@ -41,15 +41,6 @@ RUN apk add --no-cache \
     openssh-client \
     rsync
 
-#ARG DOCKER_COMPOSE_VERSION=1.20.1
-#ARG DOCKER_COMPOSE_SHA256
-#ENV DOCKER_COMPOSE_URL=https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}
-#RUN curl -sLo docker-compose ${DOCKER_COMPOSE_URL}/docker-compose-`uname -s`-`uname -m` \
-#    && echo "$DOCKER_COMPOSE_SHA256 *docker-compose" | sha256sum -c - \
-#    && chmod +x docker-compose
-
-# install docker-compose via pip because of musl vs libc6
-ARG DOCKER_COMPOSE_VERSION=1.20.1
 RUN apk add --no-cache \
     alpine-sdk \
     gcc \
@@ -58,11 +49,25 @@ RUN apk add --no-cache \
     py3-pip \
     python3 \
     python3-dev \
-    && pip3 install --upgrade pip \
-    && pip3 install docker-compose==$DOCKER_COMPOSE_VERSION
+    && pip3 install --upgrade pip
 
 RUN pip3 install awscli
 RUN ls -l /usr/local/bin/
+
+
+#ARG DOCKER_COMPOSE_VERSION=1.20.1
+#ARG DOCKER_COMPOSE_SHA256
+#ENV DOCKER_COMPOSE_URL=https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}
+#RUN curl -sLo docker-compose ${DOCKER_COMPOSE_URL}/docker-compose-`uname -s`-`uname -m` \
+#    && echo "$DOCKER_COMPOSE_SHA256 *docker-compose" | sha256sum -c - \
+#    && chmod +x docker-compose
+
+# install docker-compose via pip because of musl vs libc6
+#ARG DOCKER_COMPOSE_VERSION=1.20.1
+#RUN pip3 install docker-compose==$DOCKER_COMPOSE_VERSION
+
+# copy precompiled docker-compose (linked to musl to work with alpine)
+COPY docker-compose /usr/local/bin/docker-compose
 
 ENV SHELL=/bin/bash
 COPY --from=downloader /usr/local/bin/ /usr/local/bin/
